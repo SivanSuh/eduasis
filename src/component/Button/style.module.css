@@ -1,0 +1,3 @@
+.button {
+    @apply text-[#3E12FA] border-2 border-[#3E12FA] rounded-full px-3 outline-none hover:bg-[#3E12FA] hover:text-white
+}
