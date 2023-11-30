@@ -23,7 +23,11 @@ export default function Home() {
     setOpen(true);
   };
 
-  useOnClickOutside(modalRef, () => setOpen(false));
+  const closePopup = () => {
+    console.log("clicked");
+    setOpen(false);
+  };
+  useOnClickOutside(modalRef, closePopup);
   return (
     <Layout title="Home Page">
       <div className="flex justify-between items-center p-3">
