@@ -1,0 +1,6 @@
+.popup {
+    @apply bg-[#6495ED] rounded-md z-10 relative text-white max-w-md
+}
+/* .content {
+    @apply absolute top-0 text-white w-full bg-[#6495ED] right-0 left-0 bottom-0
+} */
