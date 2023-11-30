@@ -1,4 +1,5 @@
 export default interface ButtonProps {
     title:string;
-    isActive?:boolean
+    onClick?:(content:any) => void;
+    type?:"button"|"submit"
 }

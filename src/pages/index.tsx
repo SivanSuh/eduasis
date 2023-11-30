@@ -2,10 +2,14 @@ import Avatar from "@/component/Avatar";
 import Button from "@/component/Button";
 import { useState } from "react";
 import Popup from "@/component/Popup";
+import { AppDispatch } from "@/store/store";
+import { addCard } from "@/store/slices/flashCardSlice";
+import Link from "next/link";
 
 export default function Home() {
   const [select, setSelect] = useState<string | undefined>("");
   const [open, setOpen] = useState<boolean>(false);
+  const dispatch = AppDispatch();
 
   const handleMouseUp = () => {
     console.log(
@@ -22,6 +26,7 @@ export default function Home() {
         <Avatar image="https://eduasis.io/eduasis-logo-white-text.svg" />
         <strong>Reading</strong>
       </figure>
+      <Link href="/flash-card">Card List</Link>
 
       <p onMouseUp={handleMouseUp}>
         The App Router works in a new directory named app. The app directory
@@ -35,8 +40,11 @@ export default function Home() {
         <Popup open={open}>
           <div className="flex flex-col items-center gap-3 p-2">
             {select}
-            <Button title="Add To FlashCar" />
-            <Button title="Explain in Context" />
+            <Button
+              title="Add To FlashCar"
+              onClick={() => dispatch(addCard(select))}
+            />
+            <Button title="Know" />
           </div>
         </Popup>
       )}
