@@ -1,15 +1,18 @@
 import Avatar from "@/component/Avatar";
 import Button from "@/component/Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Popup from "@/component/Popup";
 import { AppDispatch } from "@/store/store";
 import { addCard } from "@/store/slices/flashCardSlice";
 import Link from "next/link";
+import Layout from "@/component/Layout";
+import { useOnClickOutside } from "@/hook/useClickOutSide";
 
 export default function Home() {
   const [select, setSelect] = useState<string | undefined>("");
   const [open, setOpen] = useState<boolean>(false);
   const dispatch = AppDispatch();
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleMouseUp = () => {
     console.log(
@@ -20,13 +23,16 @@ export default function Home() {
     setOpen(true);
   };
 
+  useOnClickOutside(modalRef, () => setOpen(false));
   return (
-    <main className={`flex  flex-col items-start p-24 `}>
-      <figure className="flex items-center gap-4 my-3">
-        <Avatar image="https://eduasis.io/eduasis-logo-white-text.svg" />
-        <strong>Reading</strong>
-      </figure>
-      <Link href="/flash-card">Card List</Link>
+    <Layout title="Home Page">
+      <div className="flex justify-between items-center p-3">
+        <figure className="flex items-center gap-4 my-3">
+          <Avatar image="https://eduasis.io/eduasis-logo-white-text.svg" />
+          <strong>Reading</strong>
+        </figure>
+        <Link href="/flash-card">Card List</Link>
+      </div>
 
       <p onMouseUp={handleMouseUp}>
         The App Router works in a new directory named app. The app directory
@@ -36,8 +42,9 @@ export default function Home() {
         behavior. If your application uses the pages directory, please also see
         the Pages Router documentation.
       </p>
-      {select && (
-        <Popup open={open}>
+
+      {select ? (
+        <Popup open={open} close={setOpen}>
           <div className="flex flex-col items-center gap-3 p-2">
             {select}
             <Button
@@ -47,7 +54,7 @@ export default function Home() {
             <Button title="Know" />
           </div>
         </Popup>
-      )}
-    </main>
+      ) : null}
+    </Layout>
   );
 }

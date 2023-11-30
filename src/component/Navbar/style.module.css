@@ -1,0 +1,6 @@
+.navbar {
+    @apply w-full bg-blue-400 p-3 text-center mb-3
+}
+.title {
+    @apply text-white text-xl
+}
