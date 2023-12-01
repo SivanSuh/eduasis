@@ -1,3 +1,9 @@
 .popup {
-    @apply bg-[#6495ED] rounded-md z-10 relative text-white max-w-md mx-auto
+    @apply bg-[#6495ED] inline-block rounded-md z-10  relative text-white max-w-sm w-full mx-auto min-h-[150px] h-full
+}
+.content {
+    @apply w-full   h-full text-center
+}
+.text {
+    @apply after:content-[""] after:absolute after:left-1/2 after:bottom-[97%] after:-ml-1 after:border-[5px] after:border-solid after:border-[#6495ED] after:rotate-45
 }

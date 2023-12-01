@@ -2,13 +2,18 @@ import React, { FC } from "react";
 import PopupProps from "./props";
 import Style from "./style.module.css";
 
-const Popup: FC<PopupProps> = ({ children, close, open = false }) => {
+const Popup: FC<PopupProps> = ({ children, close, open = false, position }) => {
   return (
     <>
       {open && (
-        <div className={Style.popup}>
-          <p onClick={() => close?.(false)}></p>
-          <main>{children}</main>
+        <div
+          className={Style.popup}
+          style={{ left: position.x, right: position.y }}
+        >
+          <div className={Style.content}>
+            <p onClick={() => close?.(false)}></p>
+            <main className={Style.text}>{children}</main>
+          </div>
         </div>
       )}
     </>

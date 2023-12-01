@@ -13,21 +13,31 @@ export default function Home() {
   const [open, setOpen] = useState<boolean>(false);
   const dispatch = AppDispatch();
   const modalRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+  });
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (event: any) => {
+    console.log("evemt", event);
     console.log(
       "window.getSelection().anchorNode.data => ",
       window.getSelection()?.toString()
     );
     setSelect(window.getSelection()?.toString());
     setOpen(true);
+
+    setPosition({
+      x: event.clientX - 193,
+      y: event.clientY,
+    });
   };
 
   const closePopup = () => {
-    console.log("clicked");
     setOpen(false);
   };
   useOnClickOutside(modalRef, closePopup);
+  const punctutaion = /[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g;
   return (
     <Layout title="Home Page">
       <div className="flex justify-between items-center p-3">
@@ -35,10 +45,16 @@ export default function Home() {
           <Avatar image="https://eduasis.io/eduasis-logo-white-text.svg" />
           <strong>Reading</strong>
         </figure>
-        <Link href="/flash-card">Card List</Link>
+        <Link href="/flash-card" className="hover:underline">
+          Card List
+        </Link>
       </div>
 
-      <p onMouseUp={handleMouseUp}>
+      <p
+        ref={modalRef}
+        onMouseUp={handleMouseUp}
+        className="border-[purple] border-2 p-2  max-w-4xl mx-auto"
+      >
         The App Router works in a new directory named app. The app directory
         works alongside the pages directory to allow for incremental adoption.
         This allows you to opt some routes of your application into the new
@@ -48,12 +64,14 @@ export default function Home() {
       </p>
 
       {select ? (
-        <Popup open={open} close={setOpen}>
+        <Popup open={open} close={setOpen} position={position}>
           <div className="flex flex-col items-center gap-3 p-2">
-            {select}
+            {select.replace(punctutaion, " ")}
             <Button
               title="Add To FlashCar"
-              onClick={() => dispatch(addCard(select))}
+              onClick={() =>
+                dispatch(addCard(select.replace(punctutaion, " ")))
+              }
             />
             <Button title="Know" />
           </div>
