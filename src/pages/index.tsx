@@ -3,7 +3,7 @@ import Button from "@/component/Button";
 import { useRef, useState } from "react";
 import Popup from "@/component/Popup";
 import { AppDispatch } from "@/store/store";
-import { addCard } from "@/store/slices/flashCardSlice";
+import { addCard, addKnowCard } from "@/store/slices/flashCardSlice";
 import Link from "next/link";
 import Layout from "@/component/Layout";
 import { useOnClickOutside } from "@/hook/useClickOutSide";
@@ -19,11 +19,6 @@ export default function Home() {
   });
 
   const handleMouseUp = (event: any) => {
-    console.log("evemt", event);
-    console.log(
-      "window.getSelection().anchorNode.data => ",
-      window.getSelection()?.toString()
-    );
     setSelect(window.getSelection()?.toString());
     setOpen(true);
 
@@ -38,6 +33,17 @@ export default function Home() {
   };
   useOnClickOutside(modalRef, closePopup);
   const punctutaion = /[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g;
+
+  const newValues = select?.replace(punctutaion, " ").trim().split(" ");
+
+  const addFlashCard = () => {
+    if (newValues?.length > 1) {
+      dispatch(addCard(select?.replace(punctutaion, " ")));
+    } else {
+      dispatch(addKnowCard(select?.replace(punctutaion, " ")));
+    }
+  };
+
   return (
     <Layout title="Home Page">
       <div className="flex justify-between items-center p-3">
@@ -46,7 +52,10 @@ export default function Home() {
           <strong>Reading</strong>
         </figure>
         <Link href="/flash-card" className="hover:underline">
-          Card List
+          Flash Card List
+        </Link>
+        <Link href="/known-page" className="hover:underline mx-2">
+          Known Word List
         </Link>
       </div>
 
@@ -67,13 +76,8 @@ export default function Home() {
         <Popup open={open} close={setOpen} position={position}>
           <div className="flex flex-col items-center gap-3 p-2">
             {select.replace(punctutaion, " ")}
-            <Button
-              title="Add To FlashCar"
-              onClick={() =>
-                dispatch(addCard(select.replace(punctutaion, " ")))
-              }
-            />
-            <Button title="Know" />
+            <Button title="Add To FlashCar" onClick={addFlashCard} />
+            <Button title="Know" onClick={addFlashCard} />
           </div>
         </Popup>
       ) : null}
