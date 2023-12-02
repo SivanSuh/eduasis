@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 export default function Home() {
   const [open, setOpen] = useState<boolean>(false);
-  const [select, setSelect] = useState<string | undefined>("");
+  const [select, setSelect] = useState<string | undefined | any>("");
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
