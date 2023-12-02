@@ -16,7 +16,7 @@ const FlashCardPage = () => {
         Return Home
       </Link>
       <h2 className="m-2 text-center text-2xl">FlashCard Listesi</h2>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap justify-center items-center">
         {content?.map((item: any) => {
           return <FlashCard content={item} text={item} key={item} />;
         })}

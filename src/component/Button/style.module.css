@@ -1,3 +1,6 @@
 .button {
     @apply text-white border-2 border-white rounded-full px-3 outline-none hover:bg-[#3E12FA] hover:text-white
 }
+.disabled {
+    @apply button bg-gray-400 !important
+}
