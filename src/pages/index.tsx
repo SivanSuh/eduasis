@@ -1,24 +1,28 @@
 import Avatar from "@/component/Avatar";
 import Button from "@/component/Button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Popup from "@/component/Popup";
-import { AppDispatch } from "@/store/store";
-import { addCard, addKnowCard } from "@/store/slices/flashCardSlice";
+import { AppDispatch, RootState } from "@/store/store";
+import { addCard, addKnowCard, postApi } from "@/store/slices/flashCardSlice";
 import Link from "next/link";
 import Layout from "@/component/Layout";
 import { useOnClickOutside } from "@/hook/useClickOutSide";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const [select, setSelect] = useState<string | undefined>("");
   const [open, setOpen] = useState<boolean>(false);
-  const dispatch = AppDispatch();
-  const modalRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
   });
 
-  const handleMouseUp = (event: any) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const dispatch = AppDispatch();
+  const { translateValue } = useSelector((state: RootState) => state);
+
+  useEffect(() => {}, [select]);
+  const handleMouseUp = async (event: any) => {
     setSelect(window.getSelection()?.toString());
     setOpen(true);
 
@@ -26,16 +30,27 @@ export default function Home() {
       x: event.clientX - 193,
       y: event.clientY,
     });
+    (await select) &&
+      dispatch(
+        postApi({
+          q: select?.replace(punctutaion, " "),
+          target: "tr",
+        })
+      );
   };
 
   const closePopup = () => {
     setOpen(false);
   };
   useOnClickOutside(modalRef, closePopup);
-  const punctutaion = /[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g;
+  const punctutaion = /[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g; // for punctutaion  example . , ?
 
   const newValues = select?.replace(punctutaion, " ").trim().split(" ");
 
+  console.log(
+    "select?.replace(punctutaion,)",
+    select?.replace(punctutaion, " ")
+  );
   const addFlashCard = () => {
     if (newValues?.length > 1) {
       dispatch(addCard(select?.replace(punctutaion, " ")));
@@ -76,6 +91,8 @@ export default function Home() {
         <Popup open={open} close={setOpen} position={position}>
           <div className="flex flex-col items-center gap-3 p-2">
             {select.replace(punctutaion, " ")}
+            <br />
+            {translateValue?.[0].translatedText}
             <Button title="Add To FlashCar" onClick={addFlashCard} />
             <Button title="Know" onClick={addFlashCard} />
           </div>

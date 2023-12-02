@@ -1,11 +1,25 @@
 import FlashCardModels from "@/models/FlashCardModels";
-import { createSlice } from "@reduxjs/toolkit";
+import PostModels from "@/models/PostModels";
+import postService from "@/service/postService";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
 const initialState:FlashCardModels = {
     content:[],
-    known:[]
+    known:[],
+    error:null,
+    translateValue:null
 }
+
+export const postApi = createAsyncThunk("post", async (data:PostModels) => {
+    try {
+        const response = await postService.postTranslate(data);
+        console.log("res",response)
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 const flashCardSlice = createSlice({
     name:"flash-card",
@@ -23,6 +37,15 @@ const flashCardSlice = createSlice({
                 state.known.push(word)
             }
         }
+    },
+    extraReducers:(builder) => {
+        builder.addCase(postApi.fulfilled,(state,action) => {
+            //state.content.push(action.payload?.data?.data)
+            state.translateValue = action.payload?.data?.data?.translations
+        })
+        builder.addCase(postApi.rejected,(state,action) => {
+            state.error = action.payload
+        })
     }
 })
 export const { addCard, addKnowCard } = flashCardSlice.actions
