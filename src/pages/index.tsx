@@ -10,52 +10,60 @@ import { useOnClickOutside } from "@/hook/useClickOutSide";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  const [select, setSelect] = useState<string | undefined>("");
   const [open, setOpen] = useState<boolean>(false);
+  const [select, setSelect] = useState<string | undefined>("");
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
   });
 
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLInputElement>(null);
   const dispatch = AppDispatch();
   const { translateValue } = useSelector((state: RootState) => state);
 
   useEffect(() => {}, [select]);
+
+  const punctutaion = /[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g; // for punctutaion  example . , ?
+
   const handleMouseUp = async (event: any) => {
     setSelect(window.getSelection()?.toString());
+    const data = window.getSelection()?.toString()?.replace(punctutaion, " ");
     setOpen(true);
-
     setPosition({
       x: event.clientX - 193,
       y: event.clientY,
     });
-    (await select) &&
-      dispatch(
+    if (event.detail == 2 || data) {
+      await dispatch(
         postApi({
-          q: select?.replace(punctutaion, " "),
+          q: data,
           target: "tr",
         })
       );
+    }
+
+    console.log("gelen deger", event);
   };
 
-  const closePopup = () => {
-    setOpen(false);
-  };
-  useOnClickOutside(modalRef, closePopup);
-  const punctutaion = /[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g; // for punctutaion  example . , ?
+  useOnClickOutside(modalRef, () => setOpen(false));
 
-  const newValues = select?.replace(punctutaion, " ").trim().split(" ");
+  const newValues = select?.replace(punctutaion, " ").trim().split(" "); // select sentence or word
 
-  console.log(
-    "select?.replace(punctutaion,)",
-    select?.replace(punctutaion, " ")
-  );
   const addFlashCard = () => {
     if (newValues?.length > 1) {
-      dispatch(addCard(select?.replace(punctutaion, " ")));
+      dispatch(
+        addCard({
+          en: select?.replace(punctutaion, " "),
+          tr: translateValue?.[0]?.translatedText,
+        })
+      );
     } else {
-      dispatch(addKnowCard(select?.replace(punctutaion, " ")));
+      dispatch(
+        addKnowCard({
+          en: select?.replace(punctutaion, " "),
+          tr: translateValue?.[0]?.translatedText,
+        })
+      );
     }
   };
 
@@ -87,17 +95,17 @@ export default function Home() {
         the Pages Router documentation.
       </p>
 
-      {select ? (
+      {select && (
         <Popup open={open} close={setOpen} position={position}>
           <div className="flex flex-col items-center gap-3 p-2">
-            {select.replace(punctutaion, " ")}
+            {select?.replace(punctutaion, " ")}
             <br />
             {translateValue?.[0].translatedText}
             <Button title="Add To FlashCar" onClick={addFlashCard} />
             <Button title="Know" onClick={addFlashCard} />
           </div>
         </Popup>
-      ) : null}
+      )}
     </Layout>
   );
 }

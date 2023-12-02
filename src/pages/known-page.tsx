@@ -13,8 +13,8 @@ const KnownPage = () => {
       </Link>
       <h2 className="m-2 text-center text-2xl">Bilinen Kelimeler</h2>
       <div className="flex flex-wrap">
-        {known.map((item) => (
-          <FlashCard content={item} />
+        {known.map((item: any) => (
+          <FlashCard content={item} text={item} />
         ))}
       </div>
     </Layout>

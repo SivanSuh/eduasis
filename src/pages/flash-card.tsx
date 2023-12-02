@@ -1,4 +1,5 @@
 import FlashCard from "@/component/FlashCard";
+import FlashCardProps from "@/component/FlashCard/props";
 import Layout from "@/component/Layout";
 import { RootState } from "@/store/store";
 import Link from "next/link";
@@ -16,9 +17,9 @@ const FlashCardPage = () => {
       </Link>
       <h2 className="m-2 text-center text-2xl">FlashCard Listesi</h2>
       <div className="flex flex-wrap">
-        {content?.map((item) => (
-          <FlashCard content={item} text={item} />
-        ))}
+        {content?.map((item: any) => {
+          return <FlashCard content={item} text={item} key={item} />;
+        })}
       </div>
     </Layout>
   );

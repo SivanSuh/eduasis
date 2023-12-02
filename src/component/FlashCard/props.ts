@@ -1,10 +1,10 @@
 export default interface FlashCardProps {
-    content:string;
-    text?:string
+    content:Tr
+    text:En
 }
-// interface TranslateText {
-//     translations:Array<Text>
-// }
-// interface Text {
-//     translatedText:string
-// }
+interface Tr {
+    tr:string
+}
+interface En {
+    en:string
+}
