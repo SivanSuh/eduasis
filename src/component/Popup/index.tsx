@@ -8,7 +8,7 @@ const Popup: FC<PopupProps> = ({ children, close, open = false, position }) => {
       {open && (
         <div
           className={Style.popup}
-          style={{ left: position.x, right: position.y }}
+          //style={{ left: position.x, right: position.y }}
         >
           <div className={Style.content}>
             <p onClick={close}></p>

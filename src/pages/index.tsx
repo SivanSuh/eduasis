@@ -17,6 +17,7 @@ export default function Home() {
     y: 0,
   });
 
+  const textRef = useRef(null);
   const modalRef = useRef<HTMLInputElement>(null);
   const dispatch = AppDispatch();
   const { translateValue, known } = useSelector(
@@ -30,11 +31,18 @@ export default function Home() {
   const handleMouseUp = async (event: any) => {
     setSelect(window.getSelection()?.toString());
     const data = window.getSelection()?.toString()?.replace(punctutaion, " ");
+
+    const textElement = textRef.current;
+    // console.log("text element", textElement);
+    // const rect = textElement?.getBoundingClientRect();
+    // console.log("recxt", rect);
+    // setPosition({
+    //   x: rect?.bottom + window.scrollY,
+    //   y: rect?.left + window.scrollX + rect?.width / 2,
+    // });
+
     setOpen(true);
-    setPosition({
-      x: event.clientX - 440,
-      y: event.clientY,
-    });
+
     if (event.detail == 2 || data) {
       await dispatch(
         postApi({
@@ -100,7 +108,7 @@ export default function Home() {
       </h2>
       <div ref={modalRef} className="max-w-max mx-auto border-2">
         <p
-          //ref={modalRef}
+          // ref={textRef}
           onMouseUp={handleMouseUp}
           className="border-[purple] border-2 p-2  max-w-3xl mx-auto"
         >
