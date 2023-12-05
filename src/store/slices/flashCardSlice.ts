@@ -21,21 +21,28 @@ export const postApi = createAsyncThunk("post", async (data:PostModels) => {
     }
 })
 
+// two object equeals
+const areObjectsEqual = (obje1:any, obje2:any) => {
+  return JSON.stringify(obje1) === JSON.stringify(obje2);
+};
+
 const flashCardSlice = createSlice({
     name:"flash-card",
     initialState,
     reducers:{
         addCard:(state,action) => {
             const word = action.payload;
-            if(!state.content.includes(word)){
+            if(!state.content.some((obj) => areObjectsEqual(obj,word))){
                 state.content.push(word)
             }
         },
         addKnowCard:(state,action) => {
             const word = action.payload;
-            if(!state.known.includes(word)){
+            console.log("action payload",word)
+            if(!state.known.some((obj) => areObjectsEqual(obj,word))){
                 state.known.push(word)
             }
+         
         }
     },
     extraReducers:(builder) => {

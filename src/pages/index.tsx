@@ -19,9 +19,11 @@ export default function Home() {
 
   const modalRef = useRef<HTMLInputElement>(null);
   const dispatch = AppDispatch();
-  const { translateValue } = useSelector((state: RootState) => state);
+  const { translateValue, known } = useSelector(
+    (state: RootState) => state.flashCard
+  );
 
-  useEffect(() => {}, [select]);
+  useEffect(() => {}, [select, known]);
 
   const punctutaion = /[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g; // for punctutaion  example . , ?
 
@@ -49,6 +51,7 @@ export default function Home() {
 
   const comparePlus = newValues?.length > 1;
   const compareMinus = newValues?.length == 1;
+
   const addFlashCard = () => {
     if (comparePlus) {
       dispatch(
@@ -70,6 +73,13 @@ export default function Home() {
       setSelect("");
     }
   };
+
+  const unKnowWord = `The App Router works in a new directory named app. The app directory
+  works alongside the pages directory to allow for incremental adoption.
+  This allows you to opt some routes of your application into the new
+  behavior while keeping other routes in the pages directory for
+  previous behavior. If your application uses the pages directory,
+  please also see the Pages Router documentation.`;
 
   return (
     <Layout title="Home Page">
@@ -94,12 +104,14 @@ export default function Home() {
           onMouseUp={handleMouseUp}
           className="border-[purple] border-2 p-2  max-w-3xl mx-auto"
         >
-          The App Router works in a new directory named app. The app directory
-          works alongside the pages directory to allow for incremental adoption.
-          This allows you to opt some routes of your application into the new
-          behavior while keeping other routes in the pages directory for
-          previous behavior. If your application uses the pages directory,
-          please also see the Pages Router documentation.
+          {unKnowWord.split(" ").map((item, index) => {
+            const deger = known.some((val: any) => val.en === item);
+            return (
+              <span key={index} style={{ color: deger ? "red" : "blue" }}>
+                {item}{" "}
+              </span>
+            );
+          })}
         </p>
 
         {select && (

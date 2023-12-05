@@ -1,9 +1,11 @@
 # Eduasis Assessment
 
+[Demo](https://eduasis-dfbx.vercel.app/)
+
 ## Tech
 
 - Nextjs
-- TypeScript
+- TypeScriptcreate
 - Tailwind Css
 - Redux Toolkit
 - Google Translate Api

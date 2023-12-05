@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import flashCardSlice from "./slices/flashCardSlice";
 import storage from "redux-persist/lib/storage";
@@ -8,8 +8,11 @@ const persistConfig = {
     key:"root",
     storage
 }
+const rootReducer = combineReducers({
+    flashCard:flashCardSlice
+})
 
-const persistedReducer = persistReducer(persistConfig,flashCardSlice)
+const persistedReducer = persistReducer(persistConfig,rootReducer)
 
 export const store = configureStore({
     reducer:persistedReducer,

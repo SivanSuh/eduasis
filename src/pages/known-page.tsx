@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const KnownPage = () => {
-  const { known } = useSelector((state: RootState) => state);
+  const { known } = useSelector((state: RootState) => state.flashCard);
   return (
     <Layout title="Known Word Page">
       <Link href="/" className="hover:underline">
@@ -13,8 +13,8 @@ const KnownPage = () => {
       </Link>
       <h2 className="m-2 text-center text-2xl">Bilinen Kelimeler</h2>
       <div className="flex flex-wrap justify-center items-center">
-        {known.map((item: any) => (
-          <FlashCard content={item} text={item} />
+        {known.map((item: any, index) => (
+          <FlashCard content={item} text={item} key={index} />
         ))}
       </div>
     </Layout>

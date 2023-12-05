@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const FlashCardPage = () => {
-  const { content } = useSelector((state: RootState) => state);
+  const { content } = useSelector((state: RootState) => state.flashCard);
 
   console.clear();
   console.log("content", content);
