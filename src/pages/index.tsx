@@ -96,14 +96,20 @@ export default function Home() {
           <Avatar image="https://eduasis.io/eduasis-logo-white-text.svg" />
           <strong>Reading</strong>
         </figure>
-        <Link href="/flash-card" className="hover:underline">
+        <Link
+          href="/flash-card"
+          className="hover:underline text-black !important"
+        >
           Flash Card List
         </Link>
-        <Link href="/known-page" className="hover:underline mx-2">
+        <Link
+          href="/known-page"
+          className="hover:underline mx-2 text-black !important"
+        >
           Known Word List
         </Link>
       </div>
-      <h2 className="text-center my-2">
+      <h2 className="text-center my-2 text-black !important">
         Gri border çevresine tıklayınca popup kapanıyor :D
       </h2>
       <div ref={modalRef} className="max-w-max mx-auto border-2">

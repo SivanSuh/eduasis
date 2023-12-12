@@ -8,7 +8,7 @@ const KnownPage = () => {
   const { known } = useSelector((state: RootState) => state.flashCard);
   return (
     <Layout title="Known Word Page">
-      <Link href="/" className="hover:underline">
+      <Link href="/" className="hover:underline text-black !important">
         Return Home
       </Link>
       <h2 className="m-2 text-center text-2xl">Bilinen Kelimeler</h2>

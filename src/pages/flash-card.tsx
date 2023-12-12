@@ -12,7 +12,7 @@ const FlashCardPage = () => {
   console.log("content", content);
   return (
     <Layout title="Flash Card Page">
-      <Link href="/" className="hover:underline m-4">
+      <Link href="/" className="hover:underline m-4 text-black !important">
         Return Home
       </Link>
       <h2 className="m-2 text-center text-2xl">FlashCard Listesi</h2>
