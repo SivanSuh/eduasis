@@ -1,6 +1,6 @@
 # Eduasis Assessment
 
-[Demo](https://eduasis-dfbx.vercel.app/)
+application that translates the text you choose
 
 ## Tech
 
